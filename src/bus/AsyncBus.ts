@@ -24,7 +24,6 @@ export class AsyncBus implements IAsyncMessageBus {
     }
 
     const json = JSON.stringify(info, replacer)
-    // console.log('BuildingScene bus sent', json)
     bus.$emit(SceneDirectorEventBusMessages.SceneDirectorCommandFinished, json)
   }
 
@@ -39,7 +38,6 @@ export class AsyncBus implements IAsyncMessageBus {
     }
 
     const json = JSON.stringify(info, replacer)
-    // console.log('BuildingScene bus sent', json)
     this._bus.$emit(SceneDirectorEventBusMessages.SceneDirectorCommandFinished, json)
   }
 
@@ -51,44 +49,23 @@ export class AsyncBus implements IAsyncMessageBus {
       }, 1000 * 60 * 10)
 
       const callback = (id: string, SceneDirectorCommandFinishedInfo: SceneDirectorCommandFinishedInfo) => {
-        // console.log(
-        //   'Action finished callback',
-        //   actionId,
-        //   SceneDirectorCommandFinishedInfo.payload
-        // )
-
-        // console.log(
-        //   'Action finished',
-        //   actionId,
-        //   SceneDirectorCommandFinishedInfo.payload
-        // )
+        console.log('AsyncBus Action finished callback', actionId, SceneDirectorCommandFinishedInfo.payload)
 
         clearTimeout(timeout)
         this._bus.$off(SceneDirectorEventBusMessages.SceneDirectorCommandFinished, callback)
-        // console.log('Asyncbus $off', id, actionId)
         resolve(SceneDirectorCommandFinishedInfo)
       }
 
-      // console.log('Asyncbus registering $on', actionId)
+      console.log('AsyncBus registering $on', actionId)
 
       this._bus.$on(
         SceneDirectorEventBusMessages.SceneDirectorCommandFinished,
         (SceneDirectorCommandFinishedInfoJson: string) => {
-          // const id = info.commandId ?? ''
-          // // already emitted that the command has finished? yes -> do not send again and return
-          // if (AsyncBus.finishedCommandHistory.includes(id)) {
-          //   console.log('Cached', id)
-          //   // return
-          // }
-
-          // AsyncBus.finishedCommandHistory.push(id)
-
           const info = <SceneDirectorCommandFinishedInfo>JSON.parse(SceneDirectorCommandFinishedInfoJson, reviver)
           const commandId = isSceneDirectorCommandFinishedInfo(info) ? info.commandId : info
 
           if (commandId === actionId) {
-            // console.log('AsyncBus received JSON', SceneDirectorCommandFinishedInfoJson)
-            // console.log('AsyncBus received obj ', info)
+            console.log('AsyncBus received JSON', SceneDirectorCommandFinishedInfoJson)
             const id = this.getUniqueName()
             callback(id, info)
           }
@@ -97,7 +74,7 @@ export class AsyncBus implements IAsyncMessageBus {
 
       sceneDirectorCommand.id = actionId
       const json = JSON.stringify(sceneDirectorCommand, replacer)
-      // console.log('AsyncBus sent', json)
+      console.log('AsyncBus sent', json)
       this._bus.$emit(SceneDirectorEventBusMessages.SceneDirectorCommand, json)
     })
   }

@@ -1,5 +1,3 @@
-// TODO: a looot of stuff
-
 import { ref } from 'vue'
 import { SceneDirectorEventBusMessages, SceneEventBusMessages } from '../bus/events'
 import { BaseSceneDirector } from './BaseSceneDirector'
@@ -7,13 +5,15 @@ import { BaseSceneDirector } from './BaseSceneDirector'
 export class MySceneDirector extends BaseSceneDirector {
   private _selectedMarbleName = ref('')
 
-  constructor(/* you can add your params here like */) {
+  constructor() {
     super()
-
     this.registerSceneEvents()
   }
 
   // register your events here
+  // you might want to make this in a more configurable way (like in MarbleScene.getMessagesToActionsMapping())
+  // and move these two methods to BaseSceneDirector
+  // and call registerSceneEvents(messageToActionMappings)
   private registerSceneEvents() {
     this.asyncBus.$on(SceneEventBusMessages.MarbleSelected, (name: string) => {
       console.log('Marble selected', name)
@@ -28,14 +28,20 @@ export class MySceneDirector extends BaseSceneDirector {
 
   //
 
-  clearMarbles() {
-    this.asyncCommand(SceneDirectorEventBusMessages.ClearMarbles, {})
+  async getMeshNames() {
+    const retvalue = await this.asyncCommand(SceneDirectorEventBusMessages.GetMeshNames, {})
+    return retvalue
   }
 
-  addMarble(name: string) {
-    this.asyncCommand(SceneDirectorEventBusMessages.AddMarble, name)
+  async clearMarbles() {
+    void this.asyncCommand(SceneDirectorEventBusMessages.ClearMarbles, {})
   }
 
+  async addMarble(name: string) {
+    void this.asyncCommand(SceneDirectorEventBusMessages.AddMarble, name)
+  }
+
+  // Vue reactive stuff
   useSelectedMarbleName() {
     return this._selectedMarbleName
   }
