@@ -1,15 +1,15 @@
 export enum SceneDirectorEventBusMessages {
-  SceneDirectorCommand = "command",
-  SceneDirectorCommandFinished = "commandFinished",
+  SceneDirectorCommand = 'command',
+  SceneDirectorCommandFinished = 'commandFinished',
 
-  HideInspector = "hideInspector",
-  ShowInspector = "showInspector",
-  ClearMarbles = "clearMarble",
-  AddMarble = "addMarble",
+  HideInspector = 'hideInspector',
+  ShowInspector = 'showInspector',
+  ClearMarbles = 'clearMarbles',
+  AddMarble = 'addMarble',
 }
 
 export enum SceneEventBusMessages {
-  SceneDirectorCommandFinished = "commandFinished",
+  SceneDirectorCommandFinished = 'commandFinished',
 
-  MarbleSelected = "marbleSelected",
+  MarbleSelected = 'marbleSelected',
 }

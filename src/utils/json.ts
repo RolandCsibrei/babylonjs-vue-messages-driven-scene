@@ -4,19 +4,19 @@
 export function replacer(key: string, value: any) {
   if (value instanceof Map) {
     return {
-      dataType: "Map",
+      dataType: 'Map',
       value: Array.from(value.entries()),
-    };
+    }
   } else {
-    return value;
+    return value
   }
 }
 
 export function reviver(key: string, value: any) {
-  if (typeof value === "object" && value !== null) {
-    if (value.dataType === "Map") {
-      return new Map(value.value);
+  if (typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      return new Map(value.value)
     }
   }
-  return value;
+  return value
 }
