@@ -1,105 +1,27 @@
 <template>
-  <div>
-    <label>{{ fps }}</label>
-    <label v-if="bjsRotationVector"
-      >Rotation Y: {{ bjsRotationVector.y }}</label
-    >
-    {{ bjsPositionVector }}
-    <button @click="moveCube">Move Cube</button>
-    <BabylonScene
-      @fps="fpsReceived"
-      @angle="angleReceived"
-      @bjsPositionVector="bjsPositionVectorReceived"
-      @bjsRotationVector="bjsRotationVectorReceived"
-      :position="cubePosition"
-      :positionTheRightWay="cubePositionTheRightWay"
-    />
-  </div>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
 </template>
 
-<script>
-// import { Vector3 } from "@babylonjs/core";
-import BabylonScene from "./components/BabylonScene.vue";
+<script lang="ts">
+import { defineComponent } from 'vue'
+import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: "App",
+export default defineComponent({
+  name: 'App',
   components: {
-    BabylonScene,
-  },
-  data() {
-    return {
-      cubePosition: {},
-      cubePositionTheRightWay: {},
-
-      offset: 0,
-      x: 0,
-      y: 0,
-      z: 0,
-
-      fps: 0,
-      angle: 0,
-      bjsPositionVector: null,
-      bjsRotationVector: null,
-    };
-  },
-  watch: {
-    bjsRotationVector: {
-      handler: function(val) {
-        console.log(val);
-      },
-      deep: true,
-    },
-  },
-  methods: {
-    fpsReceived(fps) {
-      this.fps = fps;
-    },
-    angleReceived(angle) {
-      this.angle = angle;
-    },
-    bjsPositionVectorReceived(bjsPositionVector) {
-      this.bjsPositionVector = bjsPositionVector;
-    },
-    bjsRotationVectorReceived(bjsRotationVector) {
-      this.bjsRotationVector = bjsRotationVector;
-    },
-    moveCube() {
-      this.getNextPosition();
-
-      this.moveCubeSharedVector();
-      this.moveCubeSharedScene();
-      this.moveCubeTheRightWay();
-    },
-
-    moveCubeSharedScene() {
-      this.cubePosition = { x: -2, y: this.y, z: this.z };
-    },
-    moveCubeSharedVector() {
-      if (this.bjsPositionVector) {
-        // this.bjsPositionVector = new Vector3(0, this.y, this.z);
-        this.bjsPositionVector.y = this.y;
-      }
-    },
-
-    moveCubeTheRightWay() {
-      this.cubePositionTheRightWay = { x: 2, y: this.y, z: this.z };
-    },
-    getNextPosition() {
-      this.offset += 0.5;
-      this.x = 0;
-      this.y = 0 + this.offset;
-      this.z = 0;
-    },
-  },
-};
+    HelloWorld
+  }
+})
 </script>
 
 <style>
-body {
-  padding: 10px;
-}
-
-label {
-  display: block;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
