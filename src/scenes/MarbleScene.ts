@@ -30,6 +30,7 @@ export class MarbleScene {
     this._eventBus.$on(SceneDirectorEventBusMessages.SceneDirectorCommand, (sceneDirectorCommandJson: string) => {
       const sceneDirectorCommand = <SceneDirectorCommand>JSON.parse(sceneDirectorCommandJson, reviver)
       const action = messagesToActions.get(sceneDirectorCommand.messageType)
+      console.log('BabylonJS Scene has received command', sceneDirectorCommand)
       if (action) {
         action.call(this, sceneDirectorCommand)
       }
@@ -131,10 +132,12 @@ export class MarbleScene {
 
   // helper methods
   emitCommand(name: SceneEventBusMessages, payload?: any) {
+    console.log('BabylonJS Scene is sending command', name, payload)
     AsyncBus.emitCommand(this._eventBus, name, payload)
   }
 
   commandFinished(sceneDirectorCommand: SceneDirectorCommand, payload?: any) {
+    console.log('BabylonJS Scene is sending command finished', sceneDirectorCommand.id, payload)
     AsyncBus.commandFinished(this._eventBus, sceneDirectorCommand, payload)
   }
 }

@@ -53,10 +53,11 @@ export class AsyncBus implements IAsyncMessageBus {
 
         clearTimeout(timeout)
         this._bus.$off(SceneDirectorEventBusMessages.SceneDirectorCommandFinished, callback)
+        console.log('AsyncBus Action $off', actionId)
         resolve(SceneDirectorCommandFinishedInfo)
       }
 
-      console.log('AsyncBus registering $on', actionId)
+      console.log('AsyncBus registering message', actionId)
 
       this._bus.$on(
         SceneDirectorEventBusMessages.SceneDirectorCommandFinished,
@@ -74,7 +75,7 @@ export class AsyncBus implements IAsyncMessageBus {
 
       sceneDirectorCommand.id = actionId
       const json = JSON.stringify(sceneDirectorCommand, replacer)
-      console.log('AsyncBus sent', json)
+      console.log('AsyncBus sent JSON', json)
       this._bus.$emit(SceneDirectorEventBusMessages.SceneDirectorCommand, json)
     })
   }
