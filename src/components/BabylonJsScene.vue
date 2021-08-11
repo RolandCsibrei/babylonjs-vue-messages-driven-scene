@@ -9,7 +9,6 @@ import { MyFirstScene } from "../scenes/MyFirstScene";
 
 import { BusFactory } from "../bus/BusFactory";
 
-
 import { defineComponent, onMounted, onUnmounted, ref } from "vue";
 
 export default defineComponent({
@@ -20,26 +19,22 @@ export default defineComponent({
 
   setup() {
     const bus = BusFactory.getBus();
-    const bjsCanvasRef = ref(null)
-      const myFirstScene = new MyFirstScene();
+    const bjsCanvasRef = ref(null);
+    const myFirstScene = new MyFirstScene();
 
     onMounted(() => {
-   const bjsCanvas = bjsCanvasRef.value;
-    if (bjsCanvas) {
-      myFirstScene.createScene(bjsCanvas);
-      if (bus) {  
-      myFirstScene.registerBusEvents(bus);
-    }
-    }
- 
-    })
+      const bjsCanvas = bjsCanvasRef.value;
+      if (bjsCanvas) {
+        myFirstScene.createScene(bjsCanvas);
+        if (bus) {
+          myFirstScene.registerBusEvents(bus);
+        }
+      }
+    });
 
     onUnmounted(() => {
-    myFirstScene.unregisterEvents();
-
-    })
+      myFirstScene.unregisterEvents();
+    });
   },
 });
-</script>
-
 </script>

@@ -20,12 +20,14 @@ import { SceneDirectorCommand } from "../director/BaseSceneDirector";
 import { reviver } from "../utils/json";
 
 export class MyFirstScene {
-  private _eventBus: IMessageBus;
   private _scene?: Scene;
 
-  registerBusEvents = (bus: IMessageBus): void => {
-    this._eventBus = bus;
+  constructor(private _eventBus: IMessageBus) {
+    //
+    this._registerBusEvents();
+  }
 
+  private _registerBusEvents = (): void => {
     const messagesToActions = new Map<string, Function>();
     messagesToActions.set(
       SceneDirectorEventBusMessages.ClearMarbles,
